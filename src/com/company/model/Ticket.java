@@ -1,16 +1,20 @@
-package com.company;
+package com.company.model;
+
 
 public class Ticket {
     private int id;
     private String departure;
     private String place;
     private String arrival;
+    private Flight flight;
+
 
     public Ticket(int id, String departure, String place, String arrival) {
         this.id = id;
         this.departure = departure;
         this.place = place;
         this.arrival = arrival;
+        this.flight = new Flight();
     }
 
     public int getId() {
@@ -44,6 +48,14 @@ public class Ticket {
 
     public void setArrival(String arrival) {
         this.arrival = arrival;
+    }
+
+    public Flight getFlight() {
+        return flight;
+    }
+
+    public void setFlight(Flight flight) {
+        this.flight = flight;
     }
 
     @Override

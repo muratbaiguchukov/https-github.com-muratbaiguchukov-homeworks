@@ -1,21 +1,24 @@
-package com.company;
+package com.company.model;
+
+import com.company.enams.Status;
 
 public class Flight {
     private int id;
-    private String direction;
     private String departureTime;
     private String arrivalTime;
-    private Airplane airplane;
+    private String airplane;
+    private Status status;
+    private Ticket[] tickets = new Ticket[10];
 
     public Flight() {
     }
 
-    public Flight(int id, String direction, String departureTime, String arrivalTime, Airplane airplane) {
+    public Flight(int id, String departureTime, String arrivalTime, String airplane, Status status) {
         this.id = id;
-        this.direction = direction;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
         this.airplane = airplane;
+        this.status = status;
     }
 
     public int getId() {
@@ -28,13 +31,6 @@ public class Flight {
         this.id = id;
     }
 
-    public String getDirection() {
-        return direction;
-    }
-
-    public void setDirection(String direction) {
-        this.direction = direction;
-    }
 
     public String getDepartureTime() {
 
@@ -56,25 +52,32 @@ public class Flight {
         this.arrivalTime = arrivalTime;
     }
 
-    public Airplane getAirplane() {
+    public String getAirplane() {
 
         return airplane;
     }
 
-    public void setAircraft(Airplane airplane) {
+    public void setAirplane(String airplane) {
 
         this.airplane = airplane;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
     @Override
     public String toString() {
         return "Flight{" +
                 "id=" + id +
-                ", direction='" + direction + '\'' +
                 ", departureTime='" + departureTime + '\'' +
                 ", arrivalTime='" + arrivalTime + '\'' +
                 ", aircraft=" + airplane + '\'' +
+                ", status=" + status + '\'' +
                 '}';
     }
 }
