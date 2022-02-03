@@ -70,6 +70,14 @@ public class Flight {
         this.status = status;
     }
 
+    public Ticket[] getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(Ticket[] tickets) {
+        this.tickets = tickets;
+    }
+
     @Override
     public String toString() {
         return "Flight{" +

@@ -19,11 +19,11 @@ public class AirportManagement implements Management {
 
     @Override
     public void buyingTicketsByFlightNumber(int number) {
-        Ticket ticket = new Ticket();
+        Ticket ticket = new Ticket(12, "8:00", "UK", "13:00");
         boolean check = false;
         for (Flight flight : flights) {
             if (flight.getId() == number) {
-                for (int j = 0; j < flight.().length; j++) {
+                for (int j = 0; j < flight.getTickets().length; j++) {
                     if (flight.getTickets()[j] != null) {
                         flight.getTickets()[j] = ticket;
                         check = true;

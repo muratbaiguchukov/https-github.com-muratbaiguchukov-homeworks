@@ -9,13 +9,13 @@ public class Ticket {
     private Flight flight;
 
 
-//    public Ticket(int id, String departure, String place, String arrival) {
-//        this.id = id;
-//        this.departure = departure;
-//        this.place = place;
-//        this.arrival = arrival;
-//        this.flight = new Flight();
-//    }
+    public Ticket(int id, String departure, String place, String arrival) {
+        this.id = id;
+        this.departure = departure;
+        this.place = place;
+        this.arrival = arrival;
+        this.flight = new Flight();
+    }
 
     public int getId() {
         return id;
