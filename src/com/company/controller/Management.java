@@ -5,7 +5,8 @@ import com.company.model.Ticket;
 
 public interface Management {
     void addNewFlight(Flight flight);
-    void buyingTicketsByFlightNumber(Flight flight);
+
+    void buyingTicketsByFlightNumber(int number);
 
     void showAllFlights();
     void ticketInfo();

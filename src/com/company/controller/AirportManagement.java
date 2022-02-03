@@ -1,11 +1,10 @@
 package com.company.controller;
 
 import com.company.model.Flight;
-import com.company.model.Ticket;;
+import com.company.model.Ticket;;import java.util.Scanner;
 
 public class AirportManagement implements Management {
     private Flight[] flights = new Flight[3];
-    private Ticket[] tickets = new Ticket[10];
 
 
     @Override
@@ -19,8 +18,24 @@ public class AirportManagement implements Management {
     }
 
     @Override
-    public void buyingTicketsByFlightNumber(Flight flight) {
-        for (int i = 0; i < flights.length; i ++){
+    public void buyingTicketsByFlightNumber(int number) {
+        Ticket ticket = new Ticket();
+        boolean check = false;
+        for (Flight flight : flights) {
+            if (flight.getId() == number) {
+                for (int j = 0; j < flight.().length; j++) {
+                    if (flight.getTickets()[j] != null) {
+                        flight.getTickets()[j] = ticket;
+                        check = true;
+                        return;
+                    }
+                }
+            }
+            if (check) {
+                System.out.println("Вы купили билет");
+            } else {
+                System.out.println("Не осталось мест");
+            }
         }
 
     }
@@ -37,6 +52,9 @@ public class AirportManagement implements Management {
 
         @Override
     public void ticketInfo() {
+        Ticket[] tickets = new Ticket[10];
+            Scanner scanner = new Scanner(System.in);
+
         for (int i = 0; i < flights.length; i ++){
         }
     }
