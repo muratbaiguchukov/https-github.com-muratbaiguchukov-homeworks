@@ -14,6 +14,7 @@ public class Main {
 
         AirportManagement airportManagement = new AirportManagement();
         Ticket ticket = new Ticket(12, "8:00", "UK", "13:00");
+        Flight flight1 = new Flight(121, "2", "5", "asa", Status.Flying, new Ticket[2]);
 
         Flight[] flight = new Flight[3];
 
@@ -23,10 +24,10 @@ public class Main {
             getMenu();
             try {
                 choice = new Scanner(System.in).nextInt();
-            } catch (Exception exception){
+            } catch (Exception exception) {
                 System.out.println("Wrong choice.");
             }
-            switch (choice){
+            switch (choice) {
                 case 1:
                     Flight newFlight = new Flight();
                     System.out.println("Enter id: ");
@@ -34,7 +35,7 @@ public class Main {
                     newFlight.setId(id);
 
                     System.out.println("Enter departure time: ");
-                    String departureTime  = scanner.next();
+                    String departureTime = scanner.next();
                     newFlight.setDepartureTime(departureTime);
 
                     System.out.println("Enter arrival time: ");
@@ -46,14 +47,23 @@ public class Main {
                     newFlight.setAirplane(airplane);
 
                     System.out.println("Enter status: ");
-                    String status = scanner.next();
-                    newFlight.setStatus(Status.valueOf(status));
+                    try {
+                        String status = scanner.next();
+                        newFlight.setStatus(Status.valueOf(status));
+                    } catch (IllegalArgumentException exception) {
+                        System.out.println("Wrong status");
+                    }
+
+                    System.out.println("Enter ticket number: ");
+                    int ticketNum = scanner.nextInt();
+                    newFlight.setId(ticketNum);
 
                     airportManagement.addNewFlight(newFlight);
                     break;
                 case 2:
                     System.out.println("Enter flight number to buy a ticket: ");
-
+                    int num = scanner.nextInt();
+                    airportManagement.buyingTicketsByFlightNumber(num);
                     break;
                 case 3:
                     airportManagement.showAllFlights();
@@ -63,8 +73,7 @@ public class Main {
                 case 5:
                     System.out.println("Enter ticket number: ");
                     int number = scanner.nextInt();
-                    ticket.setId(number);
-                    airportManagement.searchFlightByTicketNumber(ticket);
+                    airportManagement.searchFlightByTicketNumber(number);
                     break;
 
             }

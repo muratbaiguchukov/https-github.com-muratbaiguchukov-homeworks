@@ -9,6 +9,7 @@ public interface Management {
     void buyingTicketsByFlightNumber(int number);
 
     void showAllFlights();
-    void ticketInfo();
-    Flight searchFlightByTicketNumber(Ticket ticket);
+    Flight ticketInfo(Ticket ticket);
+
+    Flight searchFlightByTicketNumber(int ticketNumber);
 }

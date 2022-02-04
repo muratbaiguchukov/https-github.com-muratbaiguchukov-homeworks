@@ -2,6 +2,8 @@ package com.company.model;
 
 import com.company.enams.Status;
 
+import java.util.Arrays;
+
 public class Flight {
     private int id;
     private String departureTime;
@@ -13,12 +15,13 @@ public class Flight {
     public Flight() {
     }
 
-    public Flight(int id, String departureTime, String arrivalTime, String airplane, Status status) {
+    public Flight(int id, String departureTime, String arrivalTime, String airplane, Status status, Ticket[] tickets) {
         this.id = id;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
         this.airplane = airplane;
         this.status = status;
+        this.tickets = tickets;
     }
 
     public int getId() {
@@ -84,8 +87,9 @@ public class Flight {
                 "id=" + id +
                 ", departureTime='" + departureTime + '\'' +
                 ", arrivalTime='" + arrivalTime + '\'' +
-                ", aircraft=" + airplane + '\'' +
-                ", status=" + status + '\'' +
+                ", airplane='" + airplane + '\'' +
+                ", status=" + status +
+                ", tickets=" + Arrays.toString(tickets) +
                 '}';
     }
 }
