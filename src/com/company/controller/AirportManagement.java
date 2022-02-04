@@ -13,7 +13,6 @@ public class AirportManagement implements Management {
         for (int i = 0; i < flights.length; i++) {
             if (flights[i] == null) {
                 flights[i] = flight;
-                break;
             }
         }
     }
@@ -55,11 +54,14 @@ public class AirportManagement implements Management {
     public Flight ticketInfo(Ticket ticket) {
         int bought = 0;
         int notBought = 0;
-        for (int i = 0; i < tickets.length; i ++){
-            if (ticket.getId() == 0){
-                notBought ++;
+        for (int i = 0; i < tickets.length; i++) {
+            if (ticket.getId() == 0) {
+                notBought++;
+                System.out.println("Not bought: " + notBought);
             } else {
-                bought ++;
+                bought++;
+                System.out.println("Bought: " + bought);
+                break;
             }
         }
         return null;
@@ -67,12 +69,12 @@ public class AirportManagement implements Management {
 
     @Override
     public Flight searchFlightByTicketNumber(int ticketNumber) {
-        for (Flight flight: flights){
-            for (Ticket ticket: tickets){
+        for (Flight flight : flights) {
+            for (Ticket ticket : tickets) {
                 if (ticketNumber == ticket.getId())
                     return flight;
             }
         }
         throw new NullPointerException("We can't find the flight");
     }
-    }
+}
