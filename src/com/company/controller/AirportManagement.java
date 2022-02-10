@@ -1,29 +1,29 @@
 package com.company.controller;
 
 import com.company.model.Flight;
-import com.company.model.Ticket;;
+import com.company.model.Ticket;;import java.util.Scanner;
 
 public class AirportManagement implements Management {
     private Flight[] flights = new Flight[3];
-    private Ticket[] tickets = new Ticket[5];
 
 
     @Override
     public void addNewFlight(Flight flight) {
-        for (int i = 0; i < flights.length; i++) {
+        for (int i = 0; i < flights.length; i ++){
             if (flights[i] == null) {
                 flights[i] = flight;
+                break;
             }
         }
     }
 
     @Override
     public void buyingTicketsByFlightNumber(int number) {
-        Ticket ticket = new Ticket(12, "8:00", "UK", "13:00");
+        Ticket ticket = new Ticket();
         boolean check = false;
         for (Flight flight : flights) {
             if (flight.getId() == number) {
-                for (int j = 0; j < flight.getTickets().length; j++) {
+                for (int j = 0; j < flight.().length; j++) {
                     if (flight.getTickets()[j] != null) {
                         flight.getTickets()[j] = ticket;
                         check = true;
@@ -37,44 +37,35 @@ public class AirportManagement implements Management {
                 System.out.println("Не осталось мест");
             }
         }
-    }
 
+    }
 
     @Override
     public void showAllFlights() {
-        for (int i = 0; i < flights.length; i++) {
-            if (flights[i] != null) {
+        for (int i = 0; i < flights.length; i ++ ){
+            if (flights[i] != null){
                 System.out.println(flights[i]);
             }
         }
     }
 
 
-    @Override
-    public Flight ticketInfo(Ticket ticket) {
-        int bought = 0;
-        int notBought = 0;
-        for (int i = 0; i < tickets.length; i++) {
-            if (ticket.getId() == 0) {
-                notBought++;
-                System.out.println("Not bought: " + notBought);
-            } else {
-                bought++;
-                System.out.println("Bought: " + bought);
-                break;
-            }
+        @Override
+    public void ticketInfo() {
+        Ticket[] tickets = new Ticket[10];
+            Scanner scanner = new Scanner(System.in);
+
+        for (int i = 0; i < flights.length; i ++){
         }
-        return null;
     }
 
     @Override
-    public Flight searchFlightByTicketNumber(int ticketNumber) {
+    public Flight searchFlightByTicketNumber(Ticket ticket) {
         for (Flight flight : flights) {
-            for (Ticket ticket : tickets) {
-                if (ticketNumber == ticket.getId())
-                    return flight;
+            if (ticket.getId() == flight.getId()) {
+                System.out.println(flights);
             }
         }
-        throw new NullPointerException("We can't find the flight");
+        return null;
     }
 }
