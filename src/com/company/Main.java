@@ -1,5 +1,3 @@
-package com.company;
-
 import com.company.controller.AirportManagement;
 import com.company.enams.Status;
 import com.company.model.Flight;
@@ -15,7 +13,7 @@ public class Main {
         AirportManagement airportManagement = new AirportManagement();
         Ticket ticket = new Ticket(12, "8:00", "UK", "13:00");
 
-        Flight[] flight = new Flight[3];
+        Flight[] flight = new Flight[10];
 
         boolean check = true;
         int choice = 0;
