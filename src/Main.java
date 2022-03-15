@@ -24,7 +24,8 @@ public class Main {
     public static int getTreneryCount() {
         String SQL = "SELECT count(*) FROM trenery";
         int count = 0;
-        try (Connection conn = connect();
+        try {
+            Connection conn = connect();
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(SQL)) {
             count = rs.getInt(1);
