@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.sql.Connection;
+import java.util.concurrent.Callable;
 
 public class Main {
     private static final String url = "jdbc:postgresql://localhost:5433/";
@@ -8,7 +9,7 @@ public class Main {
 
     public static void main(String[] args) {
         //connect();
-        System.out.println(getProductCount());
+        System.out.println("Продуктов с названием Ch = " + getProductCountCh());
     }
 
     public static Connection connect(){
@@ -22,8 +23,8 @@ public class Main {
         return conn;
     }
 
-    public static int getProductCount() {
-        String SQL = "SELECT count(*) FROM product";
+    public static int getProductCountCh() {
+        String SQL = "SELECT count(*) FROM product WHERE product_name LIKE 'Ch%'";
         int count = 0;
         try {
             Connection conn = connect();
@@ -33,8 +34,14 @@ public class Main {
             count = rs.getInt(1);
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
+        } finally {
+            try {
+            conn.close();
+        } catch (SQLException ex) {
+                ex.printStackTrace();
         }
+    }
             return count;
         }
 
-}
+        }
