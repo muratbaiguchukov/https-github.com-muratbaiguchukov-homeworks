@@ -8,8 +8,8 @@ public class Main {
     private static final String password = "master";
 
     public static void main(String[] args) {
-        //connect();
-        System.out.println("Продуктов с названием Ch = " + getProductCountCh());
+        connect();
+        getProducts();
     }
 
     public static Connection connect(){
@@ -23,14 +23,16 @@ public class Main {
         return conn;
     }
 
-    public static int getProductCountCh() {
-        String SQL = "SELECT count(*) FROM product WHERE product_name LIKE 'Ch%'";
+    public static int getProducts() {
+        String SQL = "SELECT count * FROM product WHERE product_name LIKE 'Ch%'";
         int count = 0;
         try {
             Connection conn = connect();
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(SQL);
-            rs.next();
+            while (rs.next()) {
+                System.out.println(rs.getLong("id")  + " - " + rs.getString("product_name"));
+            }
             count = rs.getInt(1);
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
