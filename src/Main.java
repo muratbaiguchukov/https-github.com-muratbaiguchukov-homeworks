@@ -8,7 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
         //connect();
-        System.out.println(getTreneryCount());
+        System.out.println(getProductCount());
     }
 
     public static Connection connect(){
@@ -22,8 +22,8 @@ public class Main {
         return conn;
     }
 
-    public static int getTreneryCount() {
-        String SQL = "SELECT count(*) FROM trenery";
+    public static int getProductCount() {
+        String SQL = "SELECT count(*) FROM product";
         int count = 0;
         try {
             Connection conn = connect();
