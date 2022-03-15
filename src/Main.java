@@ -7,7 +7,8 @@ public class Main {
     private static final String password = "master";
 
     public static void main(String[] args) {
-        connect();
+        //connect();
+        System.out.println(getTreneryCount());
     }
 
     public static Connection connect(){
@@ -27,7 +28,8 @@ public class Main {
         try {
             Connection conn = connect();
         Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery(SQL)) {
+        ResultSet rs = stmt.executeQuery(SQL);
+            rs.next();
             count = rs.getInt(1);
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
