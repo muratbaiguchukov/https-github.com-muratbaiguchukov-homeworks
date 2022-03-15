@@ -24,14 +24,16 @@ public class Main {
     }
 
     public static int getProducts() {
-        String SQL = "SELECT count * FROM product WHERE product_name LIKE 'Ch%'";
+        String SQL = "SELECT id,product_name FROM product WHERE product_name LIKE 'Ch%'";
         int count = 0;
+        Connection conn = null;
         try {
-            Connection conn = connect();
+             conn = connect();
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery(SQL);
             while (rs.next()) {
-                System.out.println(rs.getLong("id")  + " - " + rs.getString("product_name"));
+                System.out.println(rs.getLong("id")+"-"+rs.getString("product_name"));
+
             }
             count = rs.getInt(1);
         } catch (SQLException ex) {
