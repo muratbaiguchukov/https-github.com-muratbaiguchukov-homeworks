@@ -9,6 +9,9 @@ public class User {
     private String password;
     private LocalDateTime dateOfRegistration;
 
+    public User() {
+    }
+
     public Integer getId() {
         return id;
     }

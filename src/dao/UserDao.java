@@ -4,6 +4,7 @@ import model.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -36,5 +37,22 @@ public class UserDao {
 
     public List<User> selectUser() {
         return null;
+    }
+
+    public ResultSet getUser(User user) {
+        ResultSet rs = null;
+
+        try {
+            String SQL = "SELECT * FROM users WHERE login =='?' AND password == '?'";
+            PreparedStatement statement = DatabaseConnection.connect().prepareStatement(SQL);
+            statement.setString(1, user.getLogin());
+            statement.setString(2, user.getPassword());
+
+            rs = statement.executeQuery();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return rs;
     }
 }

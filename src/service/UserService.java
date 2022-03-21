@@ -11,7 +11,11 @@ public class UserService {
 
    }
 
-    public void authorize(String login, String password){
+    public String authorize(String login, String password){
+           return null;
+    }
 
+    public int authorize(User newUser1) {
+        return 0;
     }
 }
