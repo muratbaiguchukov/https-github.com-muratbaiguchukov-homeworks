@@ -1,4 +1,6 @@
+import dao.UserDao;
 import model.User;
+import model.UserForAuthorize;
 import service.UserService;
 
 import java.sql.*;
@@ -23,27 +25,17 @@ public class Main {
             System.out.println("fail register");
         }
 
-        User user = new User();
-        user.setLogin("fgh");
-        user.setPassword("157684F");
-        ResultSet resultSet = userService.authorize(user);
 
-        UserService userService1 = new UserService();
-        int count1 = userService1.authorize(user);
-        int counter = 0;
-        try {
-            while (resultSet.next()) {
-                counter++;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-            if (counter >= 1)
-                System.out.println("success authorize");
-            else {
-                System.out.println("fail authorize");
-            }
+        UserForAuthorize userForAuthorize = new UserForAuthorize("login", "password");
+        System.out.println(UserDao.authorize(userForAuthorize));
+
+
+
+
+
 
     }
+
+
 }
 
