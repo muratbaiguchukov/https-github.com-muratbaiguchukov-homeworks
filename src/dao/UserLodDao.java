@@ -6,7 +6,7 @@ import java.util.List;
 
 public class UserLodDao {
 
-    public int insertUserLog() {
+    public int insertUserLog(UserLog userLog) {
         return 0;
     }
 

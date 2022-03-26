@@ -64,8 +64,24 @@ public class UserDao {
         return 0;
     }
 
-    public List<User> selectUser() {
-        return null;
-    }
+    public User selectUserByLogin(String login) {
+        String SQL = "SELECT * FROM users WHERE login = ?";
+        Connection conn = DatabaseConnection.connect();
+        try {
+            PreparedStatement statement = conn.prepareStatement(SQL);
+            statement.setString(1, login);
+            ResultSet rs = statement.executeQuery();
+            rs.next();
+            User user = new User();
+            user.setId(rs.getInt("id"));
+            user.setLogin(rs.getString("login"));
+            user.setPassword(rs.getString("password"));
+            user.setEmail(rs.getString("email"));
+            return user;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
 
+    }
 }
