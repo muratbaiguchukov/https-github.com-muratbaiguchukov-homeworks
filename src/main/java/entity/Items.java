@@ -2,6 +2,7 @@ package entity;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.mapping.List;
 
 import javax.persistence.*;
 
@@ -23,9 +24,13 @@ public class Items {
     @Column(name = "name", nullable = false)
     String name;
 
-    @Column(name = "desc")
-    String desc;
+    @Column(name = "description")
+    String description;
 
     @Column(name = "price")
-    Integer price;
+    Integer price;//decimal
+
+    @ManyToMany
+    @JoinColumn(name = "categories_id", nullable = false)
+    List<Categories> categories;
 }

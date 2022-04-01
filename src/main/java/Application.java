@@ -17,19 +17,19 @@ public class Application {
 
         Items items = Items.builder()
                 .name("BREAD")
-                .desc("THE BLACK")
+                .description("THE BLACK")
                 .price(50)
                 .build();
 
         Items items1 = Items.builder()
                 .name("SHAMPOO")
-                .desc("FOR HAIR")
+                .description("FOR HAIR")
                 .price(600)
                 .build();
 
         Items items2 = Items.builder()
                 .name("WINE")
-                .desc("RED")
+                .description("RED")
                 .price(1500)
                 .build();
 

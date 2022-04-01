@@ -20,11 +20,11 @@
 
         <property name="show_sql">true</property>
 
-        <mapping class="entities.Items"/>
-        <mapping class="entities.Basket"/>
-        <mapping class="entities.Categories"/>
-        <mapping class="entities.User"/>
-        <mapping class="entities.ItemsCategories"/>
+        <mapping class="entity.Items"/>
+        <mapping class="entity.Basket"/>
+        <mapping class="entity.Categories"/>
+        <mapping class="entity.User"/>
+        <mapping class="entity.ItemsCategories"/>
 
     </session-factory>
 

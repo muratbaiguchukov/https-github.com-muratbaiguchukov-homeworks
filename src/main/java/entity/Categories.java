@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "categories")
@@ -13,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Categories {
+public class Categories { // называть в единственном числе
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,5 +23,10 @@ public class Categories {
 
     @Column(name = "name", nullable = false)
     String name;
+
+    @ManyToMany
+    @JoinColumn(name = "items_id")
+    List<Items> items;
+
 
 }

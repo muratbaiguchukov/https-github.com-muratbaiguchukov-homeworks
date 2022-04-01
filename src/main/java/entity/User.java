@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class User {
+public class User { // не называть
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
