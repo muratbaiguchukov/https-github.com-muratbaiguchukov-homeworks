@@ -3,9 +3,9 @@ package service;
 import dao.NewsDao;
 import entities.News;
 import org.hibernate.Session;
-import org.hibernate.mapping.List;
 import util.HibernateUtil;
 
+import java.util.List;
 public class NewsService {
 
     NewsDao newsDa0 = new NewsDao();

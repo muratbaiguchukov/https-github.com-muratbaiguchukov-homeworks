@@ -3,6 +3,7 @@ import entities.News;
 import org.hibernate.Session;
 import util.HibernateUtil;
 
+import java.time.LocalTime;
 import java.util.Objects;
 
 public class Application {
@@ -31,18 +32,21 @@ public class Application {
                 .title("Обзор 2-го тура КПЛ")
                 .newsText("Завершился 2-й тур чемпионата Кыргызстана по футболу.")
                 .category(category2)
+                .publicationTime(LocalTime.now())
                 .build();
 
         News news1 = News.builder()
                 .title("Политическое устройство Кыргызстана")
                 .newsText("В 2021 году состоялись выборы в ЖК Кыргызстана")
                 .category(category)
+                .publicationTime(LocalTime.now())
                 .build();
 
         News news2 = News.builder()
                 .title("Экономика на спаде")
                 .newsText("В связит с пандемией коронавируса мировая экономика ощущает спад")
                 .category(category1)
+                .publicationTime(LocalTime.now())
                 .build();
 
         hibernateSession.save(category);
