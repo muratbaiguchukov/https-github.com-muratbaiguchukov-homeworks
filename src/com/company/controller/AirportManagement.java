@@ -1,71 +1,71 @@
 package com.company.controller;
 
 import com.company.model.Flight;
-import com.company.model.Ticket;;import java.util.Scanner;
+import com.company.model.Ticket;;import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class AirportManagement implements Management {
-    private Flight[] flights = new Flight[3];
+    private List<Flight> flights = new ArrayList<>();
+    private Ticket[] tickets;
 
 
     @Override
     public void addNewFlight(Flight flight) {
-        for (int i = 0; i < flights.length; i ++){
-            if (flights[i] == null) {
-                flights[i] = flight;
-                break;
-            }
-        }
+        flights.add(flight);
+        System.out.println("Добавлен рейс ");
     }
 
     @Override
-    public void buyingTicketsByFlightNumber(int number) {
-        Ticket ticket = new Ticket();
-        boolean check = false;
+    public void buyingTicketsByFlightNumber(int number, String fullName) {
         for (Flight flight : flights) {
             if (flight.getId() == number) {
-                for (int j = 0; j < flight.().length; j++) {
-                    if (flight.getTickets()[j] != null) {
-                        flight.getTickets()[j] = ticket;
-                        check = true;
+                for (int j = 0; j < flight.getTickets().length; j++) {
+                    if (flight.getTickets()[j].getFullNameClient() != null) {
+                        flight.getTickets()[j].setFullNameClient(fullName);
+                        System.out.println(fullName + " купил билет");
                         return;
                     }
                 }
             }
-            if (check) {
-                System.out.println("Вы купили билет");
-            } else {
-                System.out.println("Не осталось мест");
-            }
         }
-
+        System.out.println("Не осталось мест");
     }
 
     @Override
     public void showAllFlights() {
-        for (int i = 0; i < flights.length; i ++ ){
-            if (flights[i] != null){
-                System.out.println(flights[i]);
-            }
-        }
-    }
-
-
-        @Override
-    public void ticketInfo() {
-        Ticket[] tickets = new Ticket[10];
-            Scanner scanner = new Scanner(System.in);
-
-        for (int i = 0; i < flights.length; i ++){
-        }
+        System.out.println(flights);
     }
 
     @Override
-    public Flight searchFlightByTicketNumber(Ticket ticket) {
-        for (Flight flight : flights) {
-            if (ticket.getId() == flight.getId()) {
-                System.out.println(flights);
+    public String ticketInfo() {
+        long counter = 0l;
+        for (Flight flight : flights)
+            for (int j = 0; j < flights.getTickets().length; j++)
+                if (flight.getTickets()[j].getFullNameClient() != null)
+                    counter++;
+
+                return "Количество рейсов: " + Flight.count +
+                        "\nКоличество купленных билетов: " + counter;
             }
+
+    @Override
+    public void searchFlightByTicketNumber(int ticketNumber) {
+        boolean check = true;
+        for (Flight flight : flights)
+            for (int i = 0; i < flight.getTickets().length; i++)
+                if (flight.getTickets()[i].getId() == ticketNumber) {
+                    System.out.println(flights.getTickets()[i]);
+                    check = false;
+                }
+        if (check) {
+            System.out.println("The flight not found");
         }
-        return null;
     }
 }
+
+
+
+
+
+

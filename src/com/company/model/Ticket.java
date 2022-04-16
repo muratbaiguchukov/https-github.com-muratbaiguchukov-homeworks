@@ -2,19 +2,25 @@ package com.company.model;
 
 
 public class Ticket {
+    public static int count = 0;
+
     private int id;
     private String departure;
     private String place;
     private String arrival;
-    private Flight flight;
+    private String fullNameClient;
 
+    public Ticket(){
+    }
 
-    public Ticket(int id, String departure, String place, String arrival) {
+    public Ticket(int id, String departure, String place, String arrival, String fullNameClient) {
+        count++;
+
         this.id = id;
         this.departure = departure;
         this.place = place;
         this.arrival = arrival;
-        this.flight = new Flight();
+        this.fullNameClient = fullNameClient;
     }
 
     public int getId() {
@@ -24,7 +30,6 @@ public class Ticket {
     public void setId(int id) {
         this.id = id;
     }
-
 
     public String getDeparture() {
         return departure;
@@ -50,12 +55,12 @@ public class Ticket {
         this.arrival = arrival;
     }
 
-    public Flight getFlight() {
-        return flight;
+    public String getFullNameClient() {
+        return fullNameClient;
     }
 
-    public void setFlight(Flight flight) {
-        this.flight = flight;
+    public void setFullNameClient(String fullNameClient) {
+        this.fullNameClient = fullNameClient;
     }
 
     @Override

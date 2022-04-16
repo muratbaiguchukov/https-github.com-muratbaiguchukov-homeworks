@@ -5,13 +5,24 @@ public class Airplane {
     protected String model;
     protected String type;
 
-
     public Airplane() {
     }
 
     public Airplane(int id, String model, String type) {
         this.id = id;
         this.model = model;
+        this.type = type;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -27,11 +38,9 @@ public class Airplane {
         return type;
     }
 
-
-
     @Override
     public String toString() {
-        return "AbstractAircraft{" +
+        return "Airplane{" +
                 "id=" + id +
                 ", model='" + model + '\'' +
                 ", type='" + type + '\'' +

@@ -1,5 +1,8 @@
+package com.company;
+
 import com.company.controller.AirportManagement;
 import com.company.enams.Status;
+import com.company.model.Airplane;
 import com.company.model.Flight;
 import com.company.model.Ticket;
 
@@ -11,11 +14,6 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         AirportManagement airportManagement = new AirportManagement();
-        Ticket ticket = new Ticket(12, "8:00", "UK", "13:00");
-        Flight flight1 = new Flight(121, "2", "5", "asa", Status.Flying, new Ticket[2]);
-
-        Flight[] flight = new Flight[10];
-
         boolean check = true;
         int choice = 0;
         while (check) {
@@ -41,7 +39,18 @@ public class Main {
                     newFlight.setArrivalTime(arrivalTime);
 
                     System.out.println("Set the airplane: ");
-                    String airplane = scanner.next();
+                    Airplane airplane = new Airplane();
+                    System.out.println("Enter id: ");
+                    int airplaneId = scanner.nextInt();
+                    airplane.setId(airplaneId);
+
+                    System.out.println("Enter model: ");
+                    String model = scanner.next();
+                    airplane.setModel(model);
+
+                    System.out.println("Enter type: ");
+                    String type = scanner.next();
+                    airplane.setType(type);
                     newFlight.setAirplane(airplane);
 
                     System.out.println("Enter status: ");
@@ -54,20 +63,32 @@ public class Main {
 
                     System.out.println("Enter ticket number: ");
                     int ticketNum = scanner.nextInt();
-                    newFlight.setId(ticketNum);
+                    newFlight.setTickets(ticketNum);
+
+                    for (int i = 0; i < newFlight.getTickets().length; i++) {
+                        Ticket ticket = new Ticket();
+                        ticket.setId(i + 1);
+                        ticket.setDeparture("12:00");
+                        ticket.setArrival("17:00");
+                        ticket.setPlace("Tokyo");
+                        ticket.setFullNameClient("Max");
+                        newFlight.getTickets()[i] = ticket;
+                    }
 
                     airportManagement.addNewFlight(newFlight);
                     break;
                 case 2:
                     System.out.println("Enter flight number to buy a ticket: ");
                     int num = scanner.nextInt();
-                    airportManagement.buyingTicketsByFlightNumber(num);
+                    System.out.println("Enter full name: ");
+                    String fullName = scanner.next();
+                    airportManagement.buyingTicketsByFlightNumber(num, fullName);
                     break;
                 case 3:
                     airportManagement.showAllFlights();
                     break;
                 case 4:
-                    airportManagement.ticketInfo(ticket);
+                    airportManagement.ticketInfo();
                     break;
                 case 5:
                     System.out.println("Enter ticket number: ");
@@ -87,3 +108,4 @@ public class Main {
         System.out.println("5. Search flight by ticket number");
     }
 }
+

@@ -6,9 +6,11 @@ import com.company.model.Ticket;
 public interface Management {
     void addNewFlight(Flight flight);
 
-    void buyingTicketsByFlightNumber(int number);
+    void buyingTicketsByFlightNumber(int number, String fullName);
 
     void showAllFlights();
-    void ticketInfo();
-    Flight searchFlightByTicketNumber(Ticket ticket);
+
+    String ticketInfo();
+
+    void searchFlightByTicketNumber(int ticketNumber);
 }
