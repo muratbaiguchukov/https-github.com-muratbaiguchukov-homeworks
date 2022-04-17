@@ -1,8 +1,11 @@
 package kg.itacademy.springlearn.service;
 
-import com.sun.net.httpserver.Authenticator;
+import kg.itacademy.springlearn.Entity.User;
+import kg.itacademy.springlearn.model.UserCustom;
 
-public class UserService {
+public interface UserService {
+    void createNewUser(UserCustom userCustom);
+    User getUser(Integer Id);
+    }
 
-}
 
