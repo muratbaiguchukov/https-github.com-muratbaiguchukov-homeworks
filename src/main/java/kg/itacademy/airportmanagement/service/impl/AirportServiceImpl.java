@@ -6,6 +6,7 @@ import kg.itacademy.airportmanagement.exceptions.AirportNotFoundException;
 import kg.itacademy.airportmanagement.model.AirportModel;
 import kg.itacademy.airportmanagement.repository.AirportRepository;
 import kg.itacademy.airportmanagement.service.AirportService;
+import lombok.AllArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,11 +16,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class AirportServiceImpl implements AirportService {
-    @Autowired
-    private AirportRepository airportRepository;
 
-    @Override
+        private final AirportRepository airportRepository;
+        private final AirportRepository aircraftRepository;
+
+
+       @Override
     public AirportModel create(AirportModel airportModel) {
 
         //Валидация

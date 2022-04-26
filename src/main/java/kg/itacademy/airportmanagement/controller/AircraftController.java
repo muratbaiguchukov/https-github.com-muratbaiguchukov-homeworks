@@ -2,6 +2,7 @@ package kg.itacademy.airportmanagement.controller;
 
 import kg.itacademy.airportmanagement.model.AirportModel;
 import kg.itacademy.airportmanagement.service.AirportService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/api/aircraft")
 @Slf4j
+@AllArgsConstructor
 public class AircraftController {
 
     @Autowired
