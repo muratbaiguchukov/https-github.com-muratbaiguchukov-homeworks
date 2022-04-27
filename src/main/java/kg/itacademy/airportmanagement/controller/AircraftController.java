@@ -1,5 +1,6 @@
 package kg.itacademy.airportmanagement.controller;
 
+import io.swagger.annotations.ApiOperation;
 import kg.itacademy.airportmanagement.model.AirportModel;
 import kg.itacademy.airportmanagement.service.AirportService;
 import lombok.AllArgsConstructor;
@@ -7,9 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(path = "/api/aircraft")
@@ -21,7 +21,8 @@ public class AircraftController {
     AirportService airportService;
 
     @PostMapping(path = "/create")
-    public ResponseEntity<AirportModel> create(@RequestBody AirportModel airportModel) {
+    @ApiOperation(value = "Api для создания самолета")// в application.properties прописать про Api____
+    public ResponseEntity<AirportModel> create(@Validated @RequestBody AirportModel airportModel) {
         AirportModel result = airportService.create(airportModel);
         //Если при создании поле id что то есть, значит мы создали успешно и можем вернуть 201
         if (result.getId() != null) {
