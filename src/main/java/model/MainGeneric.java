@@ -5,7 +5,18 @@ import java.util.List;
 
 public class MainGeneric {
     public static void main(String[] args) {
-        task2();
+        //task2();
+        System.out.println(greatest(12,23,123));
+    }
+
+    public static <T extends Comparable<T>>T greatest(T x, T y, T z){
+        T max = x; //Пока что, Х максимальное
+        if (y.compareTo(max) > 0){
+            max = y; // Значит Y больше X
+        }
+        if (z.compareTo(max) > 0) {
+            max = z; // Значит Z больше всех
+        }        return max;
     }
 
     static void task1() {
