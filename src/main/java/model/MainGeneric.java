@@ -6,19 +6,24 @@ import java.util.List;
 public class MainGeneric {
     public static void main(String[] args) {
         //task2();
-        System.out.println(greatest(12,23,123));
+        Integer[] test = {1,2,3,4,5,6};
+        String[] test2 = {"123", "2", "33", };
+        System.out.println(greatest(test));
+       // System.out.println(greatest(test2)); - не работает, написан чтобы показать
     }
 
-    public static <T extends Comparable<T>>T greatest(T x, T y, T z){
-        T max = x; //Пока что, Х максимальное
-        if (y.compareTo(max) > 0){
-            max = y; // Значит Y больше X
+    public static <T extends Number & Comparable<T>>T greatest(T[] arrays) {
+        if (arrays[0] == null)
+            return null;
+
+        T max = arrays[0];
+        for (T element : arrays) {
+            if (max.compareTo(element) < 0) {
+                max = element;
+            }
         }
-        if (z.compareTo(max) > 0) {
-            max = z; // Значит Z больше всех
-        }        return max;
+        return max;
     }
-
     static void task1() {
 
         OldGenerics number = new OldGenerics(1);
