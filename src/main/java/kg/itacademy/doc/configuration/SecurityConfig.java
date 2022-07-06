@@ -2,7 +2,7 @@ package kg.itacademy.doc.configuration;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpMethod;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
 
-
+@Configuration
 @EnableWebSecurity
 @AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -28,11 +28,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authoritiesByUsernameQuery(
                         "SELECT u.login, r.name_role " +
                                 "FROM users_roles ur " +
-                                "INNER JOIN users u " +
+                                "INNER JOIN user_doc u " +
                                 "   on ur.user_id = u.id " +
-                                "INNER JOIN roles r " +
+                                "INNER JOIN doc_roles r " +
                                 "   on ur.role_id = r.id " +
-                                "WHERE u.login = ? AND u.is_active = 1"
+                                "WHERE u.login = ? AND u.is_active = true"
                 );
     }
     @Override
@@ -42,24 +42,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .csrf().disable()
+                .cors().disable()
                 .authorizeRequests()
 
-                .antMatchers(HttpMethod.GET, "/api/document/*").permitAll() // можно hasRole("Admin") -- тогда
-                // доступ к справочнику только у Admin, hasAnyRole("Admin", "User") -- если у нас несколько ролей
-                .antMatchers(HttpMethod.POST, "/api/document/*").hasRole("Admin")
-                .antMatchers(HttpMethod.PUT, "/api/document/*").hasRole("Admin")
-                .antMatchers(HttpMethod.DELETE, "/api/document/*").hasRole("Admin")
-
-                .antMatchers(HttpMethod.GET, "/api/executor/*").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/executor/*").hasRole("Admin")
-                .antMatchers(HttpMethod.PUT, "/api/executor/*").hasRole("Admin")
-                .antMatchers(HttpMethod.DELETE, "/api/executor/*").hasRole("Admin")
-
-                .antMatchers( "/api/executor/*").hasRole("Admin") //это когда для GET, POST, PUT,
-                // DELETE был доступ только у "Admin"
-
-                .antMatchers("/api/user/*").permitAll()
-                .antMatchers("/api/role/*").permitAll()
+                .anyRequest().permitAll()
+//                .antMatchers(HttpMethod.GET, "/api/document/*").permitAll() // можно hasRole("Admin") -- тогда
+//                // доступ к справочнику только у Admin, hasAnyRole("Admin", "User") -- если у нас несколько ролей
+//                .antMatchers(HttpMethod.POST, "/api/document/*").hasRole("Admin")
+//                .antMatchers(HttpMethod.PUT, "/api/document/*").hasRole("Admin")
+//                .antMatchers(HttpMethod.DELETE, "/api/document/*").hasRole("Admin")
+//
+//                .antMatchers(HttpMethod.GET, "/api/executor/*").permitAll()
+//                .antMatchers(HttpMethod.POST, "/api/executor/*").hasRole("Admin")
+//                .antMatchers(HttpMethod.PUT, "/api/executor/*").hasRole("Admin")
+//                .antMatchers(HttpMethod.DELETE, "/api/executor/*").hasRole("Admin")
+//
+//                .antMatchers( "/api/executor/*").hasRole("Admin") //это когда для GET, POST, PUT,
+//                // DELETE был доступ только у "Admin"
+//
+//                .antMatchers("/api/user/*").permitAll()
+//                .antMatchers("/api/role/*").permitAll()
 
                 .and()// означает соединение
                 .httpBasic(); // означает тип авторизации

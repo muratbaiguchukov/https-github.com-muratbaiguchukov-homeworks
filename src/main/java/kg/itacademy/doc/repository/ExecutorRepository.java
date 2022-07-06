@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface ExecutorRepository extends JpaRepository<Executor, Long> {
     List<Executor> findAllByExecutorFullName(String fullName);
+
+
 }

@@ -12,9 +12,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NotNull
-public class DocumentModel {
-
-    private Long id;
+public class DocumentCreateModel {
 
     @NotBlank(message = "document name can't be blank")
     private String documentName;

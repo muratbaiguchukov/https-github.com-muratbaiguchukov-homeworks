@@ -18,7 +18,10 @@ public class Executor extends BaseEntity {
     @Column(name = "executor_full_name", nullable = false, unique = true)
     String executorFullName;
 
-    @Column(name = "job_title", nullable = false, unique = true)
-    String jobTitle;
+    @Column(name = "position_held", nullable = false, unique = true)
+    String positionHeld;
+
+    @Column(name = "email")
+    String email;
 
    }

@@ -1,7 +1,7 @@
 package kg.itacademy.doc.entity;
 
 public enum DocumentStatus {
-    EXECUTION,
-    BEING_EXECUTED,
-    OVERDUE,
+    DONE,
+    IN_PROGRESS,
+    DEADLINE_HAS_EXPIRED
 }

@@ -1,17 +1,20 @@
 package kg.itacademy.doc.service.impl;
 
 import kg.itacademy.doc.entity.Document;
+import kg.itacademy.doc.entity.DocumentStatus;
+import kg.itacademy.doc.entity.Executor;
 import kg.itacademy.doc.exceptions.DocumentModelNullException;
 import kg.itacademy.doc.exceptions.DocumentNotFoundException;
+import kg.itacademy.doc.mapper.DocumentMapper;
+import kg.itacademy.doc.model.DocumentCreateModel;
 import kg.itacademy.doc.model.DocumentModel;
 import kg.itacademy.doc.repository.DocumentRepository;
+import kg.itacademy.doc.repository.ExecutorRepository;
 import kg.itacademy.doc.service.DocumentService;
 import lombok.AllArgsConstructor;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
-import java.security.InvalidParameterException;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -19,71 +22,41 @@ import java.util.List;
 public class DocumentServiceImpl implements DocumentService {
 
     private final DocumentRepository documentRepository;
+    private final ExecutorRepository executorRepository;
 
     @Override
-    public DocumentModel create(DocumentModel documentModel) {
+    public DocumentModel create(DocumentCreateModel documentModel) {
         //Валидация
-        if (documentModel == null) {
-            throw new DocumentModelNullException("Create document model is null");
-        } else if (Strings.isBlank(documentModel.getDocumentName())) {
-            throw new InvalidParameterException("document name can't be blank");
+        if (documentModel == null) { // не пустой ли объект(documentModel) нам передал фронт
+            throw new DocumentModelNullException("Create document model is null"); // выкинет ошибку "созданный документ нулевой"
         }
-
-        //Маппинг
-        Document document = new Document();
-        document.setDocumentName(documentModel.getDocumentName());
-        document.setNumber(documentModel.getNumber());
-        document.setDate(documentModel.getDate());
-        document.setExecutionDate(documentModel.getExecutionDate());
-        document.setExecutor(documentModel.getExecutor());
-        document = documentRepository.save(document);
-
-        // Обратный маппинг
-        documentModel.setId(document.getId());
-
-        //Вернуть результат
-        return documentModel;
+        // делаем маппинг
+        Document newEntity = DocumentMapper.INSTANCE.toEntity(documentModel); // создаем новое entity
+        newEntity = documentRepository.save(newEntity);
+        return DocumentMapper.INSTANCE.toModel(newEntity);
     }
 
 
     @Override
-    public boolean update(DocumentModel documentModel) {
+    public DocumentModel update(DocumentModel documentModel) { // полученную от controller модельку(DocumentModel) передаем сервисному слою
         //Валидация
         if (documentModel == null) {
             throw new DocumentModelNullException("Create document model is null");
-        } else if (documentModel.getDocumentName() == null || documentModel.getDocumentName().equals("")) {
-            throw new InvalidParameterException("document name can't be empty");
-        } else if (documentModel.getId() == null) {
-            throw new InvalidParameterException("document id can't be null");
-        }
-        //Проверка на то что есть такой документ с таким id
-        Document existDocument = documentRepository.getById(documentModel.getId());
-        if (existDocument == null) {
-            throw new DocumentNotFoundException("document not found by id " + documentModel.getId());
         }
 
-        //маппим
-        existDocument.setDocumentName(documentModel.getDocumentName());
-        existDocument.setNumber(documentModel.getNumber());
-        existDocument.setDate(documentModel.getDate());
-        existDocument.setExecutionDate(documentModel.getExecutionDate());
-        existDocument.setExecutor(documentModel.getExecutor());
+        // Проверка на то что есть такой документ с таким id
+        Document existDocument = documentRepository
+                .findById(documentModel.getId())
+                .orElseThrow(() -> new DocumentNotFoundException("document not found by id " + documentModel.getId()));
 
-        //обновляем
-        existDocument = documentRepository.save(existDocument);
-
-        //Если id не нулл после обновляения то можем считать что update прошел успешно в бд.
-        return existDocument.getId() != null;
+        // маппим
+        DocumentModel existDocumentModel = DocumentMapper.INSTANCE.toModel(existDocument);
+        return existDocumentModel;
 
     }
 
     @Override
     public boolean deleteById(Long id) {
-        //Валидация
-        if (!documentRepository.existsById(id)) {
-            throw new DocumentNotFoundException("Document not found by id: " + id);
-        }
-
         //Удаление
         documentRepository.deleteById(id);
 
@@ -94,69 +67,95 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public DocumentModel getById(Long id) {
-        //Валидация
-        //TODO @Valid
-        if (id == null) {
-            throw new InvalidParameterException("Id is null");
-        }
-
         //Ищем в бд с таким айди
-        //TODO use findById and .orElseThrow exception
-        Document existEntity = documentRepository.getById(id);
+        Document existEntity = documentRepository.findById(id)
+                .orElseThrow(() -> new DocumentNotFoundException("document not found by id: " + id));
 
-        //Если в бд нет такого айди то вернет null. Значит мы должны выбросить исключение о том что не нашли такого документа
-        if (existEntity == null) {
-            throw new DocumentNotFoundException("document not found by id: " + id);
-        }
-
-        //Маппинг
-        DocumentModel existModel = new DocumentModel();
-        existModel.setId(existEntity.getId());
-        existModel.setDocumentName(existEntity.getDocumentName());
-        existModel.setNumber(existEntity.getNumber());
-        existModel.setDate(existEntity.getDate());
-        existModel.setExecutionDate(existEntity.getExecutionDate());
-        existModel.setExecutor(existEntity.getExecutor()); // айдишник надо указать, а не Executor
-        existModel.setDocumentStatus(existEntity.getDocumentStatus());
-
+        //Маппинг с использованием mapstruct
+        DocumentModel existModel = DocumentMapper.INSTANCE.toModel(existEntity);
         return existModel;
 
     }
 
     @Override
     public List<DocumentModel> getAllByDocumentName(String documentName) {
-        //Валидация
-        //TODO @Valid
-        if (Strings.isBlank(documentName)) {
-            throw new InvalidParameterException("document name is blank");
-        }
-
         //Достаем все документы по наименованию
         List<Document> documentEntityList = documentRepository.findAllByDocumentName(documentName);
 
-        //Создаем пустой массив моделек
-        List<DocumentModel> documentModelList = new ArrayList<>();
+        //Маппим по одному каждый энтити в модель
+        // первый вариант
+//        for (Document element : documentEntityList){
+//            DocumentModel model =  DocumentMapper.INSTANCE.toModel(element);
+//            documentModelList.add(model);
+//        }
+        // второй вариант
+        //нижеследующая строка заменяет строки 80 - 83
+        List<DocumentModel> documentModelList = DocumentMapper.INSTANCE.toListModel(documentEntityList);
+        //добавляем в массив моделек
 
-        //Проходимся по каждому чтобы смаппить все элементы в модельки
-        //TODO foreach() and MapStruct
-        for (Document element : documentEntityList) {
-            //Маппим по одному каждый энтити в модель
-            DocumentModel documentModel = new DocumentModel();
-            documentModel.setId(element.getId());
-            documentModel.setDocumentName(element.getDocumentName());
-            documentModel.setNumber(element.getNumber());
-            documentModel.setDate(element.getDate());
-            documentModel.setExecutionDate(element.getExecutionDate());
-            documentModel.setExecutor(element.getExecutor()); // надо айдишник указать, а не Executor
-            documentModel.setDocumentStatus(element.getDocumentStatus());
+        //возвращаем модельки
+        return documentModelList;
 
-            //добавляем в массив моделек
-            documentModelList.add(documentModel);
-        }
+    }
 
-        //Возвращаем модельки
+    @Override
+    public DocumentModel getByDocumentName(String documentName) {
+        // ищем документ по такому наименованию
+        Document documentEntity = documentRepository.findByDocumentName(documentName);
+
+        DocumentModel documentEntityModel = DocumentMapper.INSTANCE.toModel(documentEntity);
+        return documentEntityModel;
+    }
+
+    @Override
+    public DocumentModel getByNumber(String number) {
+        // ищем документ по такому номеру
+        Document documentEntity = documentRepository.findByNumber(number);
+
+        DocumentModel documentModel = DocumentMapper.INSTANCE.toModel(documentEntity);
+        return documentModel;
+    }
+
+    @Override
+    public List<DocumentModel> getByDocumentDate(LocalDate date) {
+        // ищем документ по дате
+        List<Document> documentEntityList = documentRepository.findByDate(date);
+
+        List<DocumentModel> documentModelList = DocumentMapper.INSTANCE.toListModel(documentEntityList);
         return documentModelList;
     }
 
+    @Override
+    public List<DocumentModel> getByDocumentStatus(DocumentStatus documentStatus) {
+        // ищем документы, срок исполнения которых истек
+        List<Document> documentEntityList = documentRepository.findByDocumentStatus(documentStatus);
 
+        List<DocumentModel> documentModelList = DocumentMapper.INSTANCE.toListModel(documentEntityList);
+        return documentModelList;
+    }
+
+    @Override
+    public List<DocumentModel> getAllByExecutor(Long executorId) {
+        // ищем документы, находящиеся на исполнении у конкретного исполнителя
+        Executor ex = executorRepository.findById(executorId).get();
+        List<Document> documentEntityList = documentRepository.findByExecutor(ex);
+
+        List<DocumentModel> documentModelList = DocumentMapper.INSTANCE.toListModel(documentEntityList);
+        return documentModelList;
+    }
+
+    @Override
+    public List<DocumentModel> getAllDocumentsByDateAndExecutor(Long executorId, LocalDate startDate, LocalDate endDate) {
+
+        //Find executor
+//        List<Document> all = documentRepository.findByExecutorAndExecutionDateBetween(executor, startDate, endDate);
+        return null;
+    }
 }
+
+
+
+
+
+
+
