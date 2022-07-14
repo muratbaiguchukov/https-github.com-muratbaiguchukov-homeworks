@@ -29,4 +29,6 @@ public interface DocumentService {
     List<DocumentModel> getAllByExecutor(Long executorId); // просмотр документов, находящихся на исполнении у конкретного исполнителя
 
     List<DocumentModel> getAllDocumentsByDateAndExecutor(Long executorId, LocalDate startDate, LocalDate endDate); // просмотр документов, находящихся у конкретного исполнителя в течение определенного промежутка времени
+
+   List<DocumentModel> findByExecutionDateLessThanCurrentDate(Long id, LocalDate executionDate); // просмотр документов, чей срок исполнения истек
 }

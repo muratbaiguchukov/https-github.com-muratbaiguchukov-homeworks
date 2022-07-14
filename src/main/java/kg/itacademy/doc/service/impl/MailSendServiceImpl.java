@@ -18,7 +18,7 @@ public class MailSendServiceImpl implements MailSendService {
     final Environment environment;
 
     @Override
-    public String mailSend(MailSendModel mailSendModel) {
+    public boolean mailSend(MailSendModel mailSendModel) {
         try {
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             mimeMessage.setSubject(mailSendModel.getTitle(), "UTF-8");
@@ -29,9 +29,9 @@ public class MailSendServiceImpl implements MailSendService {
             mimeMessageHelper.setText(mailSendModel.getText(), true);
             javaMailSender.send(mimeMessage);
 
-            return "Успешно";
+            return true;
         } catch (Exception ignored) {
-            return "Не успешно";
+            return false;
         }
     }
 }

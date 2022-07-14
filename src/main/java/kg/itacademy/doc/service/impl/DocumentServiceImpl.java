@@ -151,6 +151,16 @@ public class DocumentServiceImpl implements DocumentService {
 //        List<Document> all = documentRepository.findByExecutorAndExecutionDateBetween(executor, startDate, endDate);
         return null;
     }
+
+    @Override
+    public List<DocumentModel> findByExecutionDateLessThanCurrentDate(Long id, LocalDate executionDate) {
+        return null;
+    }
+
+//    @Override
+//    public List<DocumentModel> findByExecutionDateLessThanCurrentDate(Long id, LocalDate executionDate) {
+//        return null;
+//    }
 }
 
 

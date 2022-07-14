@@ -3,6 +3,7 @@ package kg.itacademy.doc.configuration;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -45,23 +46,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().disable()
                 .authorizeRequests()
 
-                .anyRequest().permitAll()
-//                .antMatchers(HttpMethod.GET, "/api/document/*").permitAll() // можно hasRole("Admin") -- тогда
+
+                .antMatchers(HttpMethod.GET, "/api/document/**").hasAnyRole("Admin", "User") // можно hasRole("Admin") -- тогда
 //                // доступ к справочнику только у Admin, hasAnyRole("Admin", "User") -- если у нас несколько ролей
-//                .antMatchers(HttpMethod.POST, "/api/document/*").hasRole("Admin")
-//                .antMatchers(HttpMethod.PUT, "/api/document/*").hasRole("Admin")
-//                .antMatchers(HttpMethod.DELETE, "/api/document/*").hasRole("Admin")
+                .antMatchers(HttpMethod.POST, "/api/document/*").hasRole("Admin")
+                .antMatchers(HttpMethod.PUT, "/api/document/*").hasRole("Admin")
+                .antMatchers(HttpMethod.DELETE, "/api/document/*").hasRole("Admin")
+
+                .antMatchers(HttpMethod.GET, "/api/executor/*").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/executor/*").hasRole("Admin")
+                .antMatchers(HttpMethod.PUT, "/api/executor/*").hasRole("Admin")
+                .antMatchers(HttpMethod.DELETE, "/api/executor/*").hasRole("Admin")
 //
-//                .antMatchers(HttpMethod.GET, "/api/executor/*").permitAll()
-//                .antMatchers(HttpMethod.POST, "/api/executor/*").hasRole("Admin")
-//                .antMatchers(HttpMethod.PUT, "/api/executor/*").hasRole("Admin")
-//                .antMatchers(HttpMethod.DELETE, "/api/executor/*").hasRole("Admin")
-//
-//                .antMatchers( "/api/executor/*").hasRole("Admin") //это когда для GET, POST, PUT,
+                .antMatchers( "/api/executor/*").hasRole("Admin") //это когда для GET, POST, PUT,
 //                // DELETE был доступ только у "Admin"
 //
-//                .antMatchers("/api/user/*").permitAll()
-//                .antMatchers("/api/role/*").permitAll()
+                .antMatchers("/api/user/*").permitAll()
+                .antMatchers("/api/role/*").permitAll()
 
                 .and()// означает соединение
                 .httpBasic(); // означает тип авторизации

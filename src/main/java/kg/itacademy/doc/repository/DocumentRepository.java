@@ -25,6 +25,8 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
 
     List<Document> findByExecutorAndExecutionDateBetween(Executor executor, LocalDate startDate, LocalDate endDate);
 
+    List<Document> findAllByExecutionDateBefore(LocalDate executionDate);
+
 
 }
 

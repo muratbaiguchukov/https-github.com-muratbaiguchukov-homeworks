@@ -27,7 +27,7 @@ public class UserController {
     }
 
     @PostMapping("/sign-up")
-    public String register(@RequestBody UserModel userModel) {
+    public String register(@Valid @RequestBody UserModel userModel) {
         return userService.createUser(userModel);
     }
 }

@@ -1,8 +1,6 @@
 package kg.itacademy.doc.entity;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
@@ -12,7 +10,9 @@ import java.time.LocalDate;
 @Table(name = "document")
 @Getter
 @Setter
+@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@NoArgsConstructor
 public class Document extends BaseEntity {
     @Column(name = "document_name", nullable = false, unique = true)
     String documentName;

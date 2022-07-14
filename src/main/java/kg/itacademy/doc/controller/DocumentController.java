@@ -147,6 +147,18 @@ public class DocumentController {
                     .body(null);
         }
     }
+
+    @GetMapping(path = "getAllDocumentsByDateAndExecutor")
+    public ResponseEntity<List<DocumentModel>> getAllDocumentsByDateAndExecutor(@NotNull @RequestParam("executerId") Long executorId, LocalDate startDate, LocalDate endDate) {
+        try {
+            return ResponseEntity.ok(documentService.getAllDocumentsByDateAndExecutor(executorId, startDate, endDate));
+        } catch (RuntimeException ex) {
+            log.error(ex.getMessage(), ex);
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
+        }
+    }
     }
 
 
