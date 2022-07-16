@@ -25,7 +25,6 @@ public class ExecutorServiceImpl implements ExecutorService {
             throw new ExecutorModelNullException("Create executor model is null");
         }
 
-        //Маппинг
         Executor newEntity = ExecutorMapper.INSTANCE.toEntity(executorModel); // создаем новое entity
         newEntity = executorRepository.save(newEntity);
         return ExecutorMapper.INSTANCE.toModel(newEntity);
@@ -34,16 +33,15 @@ public class ExecutorServiceImpl implements ExecutorService {
 
     @Override
     public ExecutorModel update(ExecutorModel executorModel) {
-        //Валидация
+
         if (executorModel == null) {
             throw new ExecutorModelNullException("Create executor model is null");
         }
 
-        //Проверка на то что есть такой исполнитель с таким id
         Executor existExecutor = executorRepository.findById(executorModel.getId())
                 .orElseThrow(() -> new ExecutorNotFoundException("executor not found by id " + executorModel.getId()));
 
-        //маппим
+
         ExecutorModel existExecutorModel = ExecutorMapper.INSTANCE.toModel(existExecutor);
         return existExecutorModel;
 
@@ -51,21 +49,20 @@ public class ExecutorServiceImpl implements ExecutorService {
 
     @Override
     public boolean deleteById(Long id) {
-        //Удаление
+
         executorRepository.deleteById(id);
 
-        //Вернется тру если никаких исключений не произошло.
         return true;
 
     }
 
     @Override
     public ExecutorModel getById(Long id) {
-        //Ищем в бд с таким айди
+
         Executor existEntity = executorRepository.findById(id)
                 .orElseThrow(() -> new ExecutorNotFoundException("executor not found by id: " + id));
 
-        //Маппинг
+
         ExecutorModel existModel = ExecutorMapper.INSTANCE.toModel(existEntity);
         return existModel;
 
@@ -73,19 +70,17 @@ public class ExecutorServiceImpl implements ExecutorService {
 
     @Override
     public List<ExecutorModel> getAllByExecutorFullName(String executorFullName) {
-        //Достаем всех исполнителей по фамилии
+
         List<Executor> executorEntityList = executorRepository.findAllByExecutorFullName(executorFullName);
 
         List<ExecutorModel> executorModelList = ExecutorMapper.INSTANCE.toListModel(executorEntityList);
 
-
-        //Возвращаем модельки
         return executorModelList;
     }
 
     @Override
     public List<ExecutorModel> getAll() {
-        return  ExecutorMapper.INSTANCE.toListModel(executorRepository.findAll());
+        return ExecutorMapper.INSTANCE.toListModel(executorRepository.findAll());
     }
 
 }

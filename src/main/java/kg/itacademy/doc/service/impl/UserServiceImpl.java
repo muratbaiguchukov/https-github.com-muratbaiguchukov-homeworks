@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     public String getToken(UserAuthModel userAuthDto) {
         User user = userRepository
                 .findByLogin(userAuthDto.getLogin());
-        if(user==null){
+        if (user == null) {
             throw new UsernameNotFoundException("Username not found");
         }
         boolean isMatches = passwordEncoder.matches(userAuthDto.getPassword(), user.getPassword());
@@ -60,9 +60,9 @@ public class UserServiceImpl implements UserService {
 
         UserRole userRole = new UserRole();
         if (userModel.getLogin().contains("admin")) {
-            userRole.setRole(roleRepository.findFirstByNameRole("Admin"));
+            userRole.setRole(roleRepository.findFirstByNameRole("ROLE_Admin"));
         } else {
-            userRole.setRole(roleRepository.findFirstByNameRole("User"));
+            userRole.setRole(roleRepository.findFirstByNameRole("ROLE_User"));
         }
         userRole.setUser(userRepository.save(user));
         userRoleRepository.save(userRole);
@@ -70,3 +70,5 @@ public class UserServiceImpl implements UserService {
     }
 
 }
+
+

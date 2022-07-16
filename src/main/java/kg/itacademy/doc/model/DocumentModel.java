@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @NotNull
 public class DocumentModel {
 
+    @NotNull
     private Long id;
 
     @NotBlank(message = "document name can't be blank")
@@ -22,15 +23,24 @@ public class DocumentModel {
     @NotBlank
     private String number;
 
-    @NotBlank
+    @NotNull
     private LocalDate date;
 
-    @NotBlank
+    @NotNull
     private LocalDate executionDate;
 
     @NotNull
-    private Executor executor;
+    private ExecutorModel executor;
 
-    @NotBlank
+    @NotNull
     private DocumentStatus documentStatus;
+    private Executor executorModel;
+
+    public Executor getExecutorModel() {
+        return executorModel;
+    }
+
+    public void setExecutorModel(Executor executorModel) {
+        this.executorModel = executorModel;
+    }
 }

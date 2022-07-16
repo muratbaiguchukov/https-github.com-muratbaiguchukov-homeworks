@@ -20,15 +20,15 @@ public class DocumentCreateModel {
     @NotBlank
     private String number;
 
-    @NotBlank
+    @NotNull
     private LocalDate date;
 
-    @NotBlank
+    @NotNull
     private LocalDate executionDate;
 
     @NotNull
     private Executor executor;
 
-    @NotBlank
+    @NotNull
     private DocumentStatus documentStatus;
 }

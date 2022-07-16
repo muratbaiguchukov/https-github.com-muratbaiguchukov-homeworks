@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .antMatchers(HttpMethod.GET, "/api/document/**").hasAnyRole("Admin", "User") // можно hasRole("Admin") -- тогда
 //                // доступ к справочнику только у Admin, hasAnyRole("Admin", "User") -- если у нас несколько ролей
-                .antMatchers(HttpMethod.POST, "/api/document/*").hasRole("Admin")
+                .antMatchers(HttpMethod.POST, "/api/document/*").hasAnyRole("Admin", "User")
                 .antMatchers(HttpMethod.PUT, "/api/document/*").hasRole("Admin")
                 .antMatchers(HttpMethod.DELETE, "/api/document/*").hasRole("Admin")
 

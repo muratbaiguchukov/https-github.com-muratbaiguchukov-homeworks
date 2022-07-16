@@ -3,6 +3,7 @@ package kg.itacademy.doc.service.impl;
 import kg.itacademy.doc.model.MailSendModel;
 import kg.itacademy.doc.service.MailSendService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -13,6 +14,7 @@ import java.util.Objects;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class MailSendServiceImpl implements MailSendService {
     final JavaMailSender javaMailSender;
     final Environment environment;
@@ -26,11 +28,12 @@ public class MailSendServiceImpl implements MailSendService {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
             mimeMessageHelper.setFrom(Objects.requireNonNull(environment.getProperty("spring.mail.username")));
             mimeMessageHelper.setTo(mailSendModel.getReceiverEmail());
-            mimeMessageHelper.setText(mailSendModel.getText(), true);
+            mimeMessageHelper.setText(mailSendModel.getText(), false);
             javaMailSender.send(mimeMessage);
-
+            log.info("send success to email " + mailSendModel.getReceiverEmail());
             return true;
         } catch (Exception ignored) {
+            log.error(ignored.getMessage(), ignored);
             return false;
         }
     }

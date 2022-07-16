@@ -1,5 +1,6 @@
 package kg.itacademy.doc.service;
 
+import kg.itacademy.doc.entity.Document;
 import kg.itacademy.doc.entity.DocumentStatus;
 import kg.itacademy.doc.model.DocumentCreateModel;
 import kg.itacademy.doc.model.DocumentModel;
@@ -10,7 +11,7 @@ import java.util.List;
 public interface DocumentService {
     DocumentModel create(DocumentCreateModel documentModel); //создать документ
 
-    DocumentModel update(DocumentModel documentModel); //изменить документ
+    boolean update(DocumentModel documentModel); //изменить документ
 
     boolean deleteById(Long id); //удалить документ по id
 
@@ -30,5 +31,5 @@ public interface DocumentService {
 
     List<DocumentModel> getAllDocumentsByDateAndExecutor(Long executorId, LocalDate startDate, LocalDate endDate); // просмотр документов, находящихся у конкретного исполнителя в течение определенного промежутка времени
 
-   List<DocumentModel> findByExecutionDateLessThanCurrentDate(Long id, LocalDate executionDate); // просмотр документов, чей срок исполнения истек
+    List<Document> findAllByExecutionDateBefore(LocalDate date);
 }

@@ -8,12 +8,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.beans.PropertyEditorSupport;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -148,7 +151,7 @@ public class DocumentController {
         }
     }
 
-    @GetMapping(path = "getAllDocumentsByDateAndExecutor")
+    @GetMapping(path = "/getAllDocumentsByDateAndExecutor")
     public ResponseEntity<List<DocumentModel>> getAllDocumentsByDateAndExecutor(@NotNull @RequestParam("executerId") Long executorId, LocalDate startDate, LocalDate endDate) {
         try {
             return ResponseEntity.ok(documentService.getAllDocumentsByDateAndExecutor(executorId, startDate, endDate));
@@ -159,6 +162,22 @@ public class DocumentController {
                     .body(null);
         }
     }
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(LocalDate.class, new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String text) throws IllegalArgumentException{
+                setValue(LocalDate.parse(text, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            }
+
+            @Override
+            public String getAsText() throws IllegalArgumentException {
+                return DateTimeFormatter.ofPattern("yyyy-MM-dd").format((LocalDate) getValue());
+            }
+        });
+    }
+
     }
 
 
